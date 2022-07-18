@@ -1,0 +1,61 @@
+﻿@model IEnumerable<EmployeeManagement.Models.Employee>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="Usersdatatable" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Title
+                            </th>
+                            <th>
+                                First Name
+                            </th>
+                            <th>
+                                Last Name
+                            </th>
+
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Id
+                                </td>
+                                <td>
+                                    @item.Title
+                                </td>
+                                <td>
+                                    @item.FirstName
+                                </td>
+                                <td>
+                                    @item.LastName
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Edit", "Employees", new { id = item.Id })"><i class="fa fa-edit"></i></a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Employees", new { id = item.Id })"><i class="fa fa-address-card"></i></a><br />
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Delete", "Employees", new { id = item.Id })"><i class="fa fa-trash text-danger"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

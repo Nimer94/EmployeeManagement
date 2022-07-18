@@ -1,0 +1,18 @@
+﻿[
+  {
+    "FirstName": "Noreldin",
+    "LastName": "Nimer",
+    "PhoneNumber": "123456789",
+    "EmployeeTitle": 0,
+    "Position": "HR",
+    "InsuranceType": "TK"
+  },
+  {
+    "FirstName": "moh",
+    "LastName": "Nim",
+    "PhoneNumber": "123456789",
+    "EmployeeTitle": 0,
+    "Position": "HR",
+    "InsuranceType": "TK"
+  }
+]

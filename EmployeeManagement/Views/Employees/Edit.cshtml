@@ -1,0 +1,99 @@
+﻿@model EmployeeManagement.ViewModels.CRUDEmployeeViewModel
+
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .is-invalid {
+        border: solid 1px #d9534f;
+        border-radius: 0.2rem;
+        border-right: solid 10px #d9534f;
+    }
+
+    .is-valid {
+        border: solid 1px #28a745;
+        border-radius: 0.2rem;
+        border-right: solid 10px #28a745;
+    }
+</style>
+<h1>Employee</h1>
+<hr />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>Bearbeiten @(Model.FirstName + " " + Model.LastName)</h3>
+            </div>
+            <div class="card-body">
+                <form id="validation-form">
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        @Html.HiddenFor(p => p.Id)
+                        @*@Html.HiddenFor(p => p.AddedOn)*@
+                        <div class="col-md-12">
+                            <h3></h3>
+                            <hr />
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Anrede</label>
+                                <select asp-for="Title" asp-items="Html.GetEnumSelectList<EmployeeManagement.Models.Title>()" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Vorname</label>
+                                <input type="text" class="form-control" name="FirstName" placeholder="First Name" value="@Model.FirstName">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Nachname</label>
+                                <input type="text" class="form-control" name="LastName" placeholder="Surname" value="@Model.LastName">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">PhoneNumber</label>
+                                <input type="text" class="form-control" name="PhoneNumber" placeholder="PhoneNumber" value="@Model.PhoneNumber">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Position</label>
+                                <input type="text" class="form-control shouldvalidate" name="Position" placeholder="Position" value="@Model.Position">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Firma</label>
+                                <input type="text" class="form-control" name="InsuranceType" placeholder="InsuranceType" value="@Model.InsuranceType">
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12" style="text-align:center">
+                            <div class="form-group">
+                                <input type="submit" value="Speichern" id="AddBtn" class="btn btn-success" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "CustomersList")
+</div>
+@section scripts {
+    <script src="~/js/Employee/Edit.js"></script>
+}
+
+

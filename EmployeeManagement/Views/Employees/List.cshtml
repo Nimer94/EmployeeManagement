@@ -1,0 +1,84 @@
+﻿@model IEnumerable<EmployeeManagement.Models.Employee>
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2>Employees List</h2>
+<hr />
+<p>
+    @Html.ActionLink("Neu erstellen", "Create")
+</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form id="serchform">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Start Date</label>
+                                    <input type="text" id="StartDate" name="StartDate" class="form-control datetext" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label>End Date</label>
+                                    <input type="text" id="EndDate" name="EndDate" class="form-control datetext" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row" id="ConfDiv">
+                                <div class="col-md-3">
+                                    <label>
+                                        Fisrt Name
+                                    </label>
+                                    <select class="form-control select2" id="FirstName" name="FirstName" data-toggle="select2">
+                                        <option value="">
+                                            ---Auswählen---
+                                        </option>
+                                        @foreach (var v in Model)
+                                        {
+                                            <option value="@v.FirstName">
+                                                @v.FirstName
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>
+                                        Last Name
+                                    </label>
+                                    <select class="form-control select2" id="LastName" name="LastName" data-toggle="select2">
+                                        <option value="">
+                                            ---Auswählen---
+                                        </option>
+                                        @foreach (var v in Model)
+                                        {
+                                            <option value="@v.LastName">
+                                                @v.LastName
+                                            </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <br />
+                <div class="row">
+                    <div class="col-md-12" id="userListDiv">
+                        @Html.Partial("_EmployeesListPartial", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Neu erstellen", "Create")
+</p>
+@section scripts {
+    <script src="~/js/Employee/List.js"></script>
+}

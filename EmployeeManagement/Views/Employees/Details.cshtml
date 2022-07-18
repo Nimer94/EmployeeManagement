@@ -1,0 +1,269 @@
+﻿@using System.Security.Claims
+@model EmployeeManagement.ViewModels.CRUDEmployeeViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .kbw-signature {
+        width: 400px;
+        height: 200px;
+    }
+</style>
+<style>
+    .modal {
+        z-index: 1001 !important;
+    }
+
+    .modal-backdrop {
+        z-index: 1000 !important;
+    }
+
+    .pac-container {
+        z-index: 1055 !important;
+    }
+</style>
+<style>
+    .Altbutton {
+        background-color: Transparent;
+        background-repeat: no-repeat;
+        border: none;
+        cursor: pointer;
+        overflow: hidden;
+        outline: none;
+    }
+
+    .is-invalid {
+        border: solid 1px #d9534f;
+        border-radius: 0.2rem;
+        border-right: solid 10px #d9534f;
+    }
+
+    .is-valid {
+        border: solid 1px #28a745;
+        border-radius: 0.2rem;
+        border-right: solid 10px #28a745;
+    }
+    /* The container */
+    .containerlabel {
+        display: block;
+        position: relative;
+        padding-left: 30px;
+        margin-bottom: 12px;
+        margin-left: 10px;
+        cursor: pointer;
+        font-size: 14px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+        /* Hide the browser's default checkbox */
+        .containerlabel input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+    }
+    /* On mouse-over, add a grey background color */
+    .containerlabel:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+    /* When the checkbox is checked, add a blue background */
+    .containerlabel input:checked ~ .checkmark {
+        background-color: #3086ff;
+    }
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+    /* Show the checkmark when checked */
+    .containerlabel input:checked ~ .checkmark:after {
+        display: block;
+    }
+    /* Style the checkmark/indicator */
+    .containerlabel .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+</style>
+<h2>Mitarbeiterdaten</h2>
+<hr />
+
+<div class="row">
+    <div class="col-12 col-lg-12">
+        <div class="tab">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item"><a class="nav-link active" href="#tab-1" data-toggle="tab" role="tab"><i class="fa fa-user fa-lg"></i> Profil</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab-1" role="tabpanel">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4>@(Model.FirstName + " " + Model.LastName)</h4>
+                                        </div>
+                                        <div class="col-md-6">
+                                            @*@if (User.IsInRole("Manager") || User.IsInRole("Employee"))
+                                                {
+                                                    <a href="@Url.Action("Edit", "Employees", new { id = Model.EmployeeID })"><i class="fa fa-user-edit float-right"></i></a>
+                                                }*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row no-gutters">
+                                        <div class="col-sm-9 col-xl-12 col-xxl-9">
+                                            <strong><b>Personal ID</b></strong>
+                                            <p><b>@Model.Id</b></p>
+                                            <strong>FirstName</strong>
+                                            <p>@Model.FirstName</p>
+                                            <strong>LastName</strong>
+                                            <p>@Model.LastName</p>
+                                            <strong>Position</strong>
+                                            <p>@Model.Position</p>
+                                            <strong>InsuranceType</strong>
+                                            <p>@Model.InsuranceType</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a class="btn btn-primary text-white btn-sm" data-toggle="modal" data-target="#ExtraInfoModal"><i class="fa fa-address-card"></i> Info hinzufügen</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title mb-0">Kontakt <a class="btn btn-primary text-white float-right" data-toggle="modal" data-target="#ContactModal"><i class="fa fa-plus float-right"></i></a></h4>
+                                </div>
+                                <div class="card-body" style="max-height:750px;overflow-y:scroll">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-12">
+                                            @foreach (var add in Model.EmployeeContacts)
+                                            {
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h5 class="card-title mb-0">
+                                                            @add.ContactType.ToString()
+                                                            <button class="float-right deletecontact Altbutton" value="@add.Id">
+                                                                <i class="fa fa-trash text-danger float-right"></i>
+                                                            </button><button class="float-right editcontact Altbutton" value="@add.Id"><i class="fa fa-edit text-primary float-right"></i></button>
+                                                        </h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row no-gutters">
+                                                            <div class="col-md-12">
+
+                                                                <strong>@add.Contact.Email</strong>
+                                                                <strong>@add.Contact.PhoneNumber</strong>
+                                                                <strong>@add.Contact.MobileNumber</strong>
+                                                                <strong>@add.Contact.Comment</strong>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<form id="EditContact" class="validation-form" enctype="multipart/form-data">
+    <input type="hidden" value="0" id="ContactID" name="ContactID" />
+    <input type="hidden" value="@Model.Id" id="EmployeeID" name="EmployeeID" />
+    <input type="hidden" value="0" id="EmployeeContactID" name="EmployeeContactID" />
+    <div class="modal fade" id="ContactModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Kontact</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-label">Anrede</label>
+                            <select class="form-control selectre" id="Title" name="Title">
+                                <option value="">---Select---</option>
+                                @foreach (var value1 in Enum.GetValues(typeof(EmployeeManagement.Models.Title)))
+                                {
+                                    <option value="@((int)value1)">@value1</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Type</label>
+                            <select class="form-control selectre" id="ContactType" name="ContactType">
+                                <option value="">---Select---</option>
+                                @foreach (var value2 in Enum.GetValues(typeof(EmployeeManagement.Models.ContactType)))
+                                {
+                                    <option value="@((int)value2)">@value2</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Telefonnummer</label>
+                            <input type="text" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="Telefonnummer">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="text" class="form-control" name="Email" id="Email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Handynummer</label>
+                            <input type="text" class="form-control" name="MobileNumber" id="MobileNumber" placeholder="Handynummer">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Comment</label>
+                            <input type="text" class="form-control" name="Comment" id="Comment" placeholder="Comment">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-primary" id="SaveContactbtn"><i class="fa fa-save"></i> Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section scripts {
+    <script src="~/js/Employee/Details.js"></script>
+}

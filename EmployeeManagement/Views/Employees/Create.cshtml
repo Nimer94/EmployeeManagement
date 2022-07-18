@@ -1,0 +1,87 @@
+﻿@model EmployeeManagement.ViewModels.CRUDEmployeeViewModel
+
+@{
+    ViewBag.Title = "AddEmployee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>Users bearbeiten</h2>
+    <hr />*@
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>Users bearbeiten</h3>
+            </div>
+            <div class="card-body">
+                <form id="userForm">
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3></h3>
+                            <hr />
+                            @Html.HiddenFor(model => model.Id)
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Role</label>
+                                <select asp-for="Title" asp-items="Html.GetEnumSelectList<EmployeeManagement.Models.Title>()" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label"> Vorname</label>
+                                <input type="text" class="form-control " name="FirstName" placeholder="First Name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label"> Nachname</label>
+                                <input type="text" class="form-control" name="LastName" placeholder="Surname">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">PhoneNumber</label>
+                                <input type="text" class="form-control " name="PhoneNumber" placeholder="PhoneNumber" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Position</label>
+                                <input type="text" class="form-control " name="Position" placeholder="Position" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">InsuranceType</label>
+                                <input type="text" class="form-control " name="InsuranceType" placeholder="InsuranceType" />
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-12" style="text-align:center">
+                            <div class="form-group">
+                                <input type="submit" value="Speichern" id="Save" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "UsersList")
+</div>
+@section scripts {
+    <script src="~/js/Employee/Create.js"></script>
+
+}
